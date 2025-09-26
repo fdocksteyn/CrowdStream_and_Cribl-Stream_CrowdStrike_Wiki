@@ -1,0 +1,47 @@
+{
+  "id": "CS_Alerts_v2_Breaker",
+  "minRawLength": 256,
+  "rules": [
+    {
+      "condition": "_raw.includes(\"device_id\")",
+      "type": "json_array",
+      "timestampAnchorRegex": "/modified_timestamp/",
+      "timestamp": {
+        "type": "auto",
+        "length": 150
+      },
+      "timestampTimezone": "utc",
+      "timestampEarliest": "-420weeks",
+      "timestampLatest": "+1week",
+      "maxEventBytes": 512000,
+      "disabled": false,
+      "jsonExtractAll": true,
+      "delimiterRegex": "/\\t/",
+      "fieldsLineRegex": "/^#[Ff]ields[:]?\\s+(.*)/",
+      "headerLineRegex": "/^#/",
+      "nullFieldVal": "-",
+      "cleanFields": true,
+      "eventBreakerRegex": "/[\\n\\r]+(?!\\s)/",
+      "name": "CS_Devices_2",
+      "jsonTimeField": "modified_timestamp"
+    },
+    {
+      "condition": "__collectible.collectorId=='Crowdstrike-API-Alerts'",
+      "type": "regex",
+      "timestampAnchorRegex": "/^/",
+      "timestamp": {
+        "type": "auto",
+        "length": 150
+      },
+      "timestampTimezone": "local",
+      "timestampEarliest": "-420weeks",
+      "timestampLatest": "+1week",
+      "maxEventBytes": 51200,
+      "disabled": false,
+      "parserEnabled": false,
+      "shouldUseDataRaw": false,
+      "eventBreakerRegex": "/(?=\\{\\s*\"agent_id\":)|(?=\\{\\s*\"\"aggregate_id\"\":)/",
+      "name": "CS_Alert_EventBreaker_FloTest"
+    }
+  ]
+}
